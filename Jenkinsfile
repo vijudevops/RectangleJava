@@ -1,5 +1,10 @@
 pipeline {
-  agent any
+  agent {
+    node {
+	  label 'java_node_d'
+	}
+  
+  }
   stages {
     stage('Build') {
       steps {
@@ -9,8 +14,7 @@ pipeline {
  }
  post{
   always{
-     archive 'dist/*.jar'
-	 archiveArtifacts artifacts: 'dist/*.jar',
+     archiveArtifacts artifacts: 'dist/*.jar',
                    allowEmptyArchive: false,
                    fingerprint: false,
                    onlyIfSuccessful: false
