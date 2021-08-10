@@ -8,7 +8,7 @@
   <property name="dist.dir" location="dist" />
   
   <path id="class.path">
-    <pathelement location="./bin">  
+    <pathelement location="./bin"/>  
   </path>
  
   <!-- Target for deleting the existing directories-->
