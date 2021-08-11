@@ -34,7 +34,7 @@
  
   <!-- Creates a test report xml file -->
   <target name="test" depends="clean, mkdir, compile">
-    <junit preintsummary="yes", fork="true">
+    <junit printsummary="yes" fork="true">
         <classpath refid="class.path" />
         <test name= "RectangleTest" todir="${reports.dir}" outfile="result">
             <formatter type="xml"/>
