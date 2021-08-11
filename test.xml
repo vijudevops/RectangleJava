@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
  <!-- Set the project name, basedir and default target to be executed-->
-<project name="Rectangle-Build" default="main" basedir=".">
+<project name="Rectangle-Test" default="main" basedir=".">
   <property environment="env"/>
   <!-- Sets the properties here-->
   <property name="src.dir" location="src" />
   <property name="build.dir" location="bin" />
-  <property name="dist.dir" location="dist" />
-  <property name="docs.dir" location="docs" />
+  <property name="reports.dir" location="reports" />
+  
   
   <path id="class.path">
     <pathelement location="./lib/junit-4.13.2.jar"/>
@@ -16,35 +16,34 @@
   <!-- Target for deleting the existing directories-->
   <target name="clean">
     <delete dir="${build.dir}" />
-	<delete dir="${docs.dir}" />
-	<delete dir="${dist.dir}" />
+	<delete dir="${reports.dir}" />
   </target>
  
   <!-- Target for creating the new directories-->
   <target name="makedir">
     <mkdir dir="${build.dir}" />
-	<mkdir dir="${docs.dir}" />
-	<mkdir dir="${dist.dir}" />
+	<mkdir dir="${reports.dir}" />	
   </target>
  
   <!-- Target for compiling the java code-->
-  <target name="compile" depends="clean, makedir">
+  <target name="compile" depends="makedir">
     <javac srcdir="${src.dir}" destdir="${build.dir}">
 	  <classpath refid="class.path" />
     </javac>	
   </target>
  
-  <!-- Creates a deployable jar file -->
-  <target name="jar" depends="compile">
-    <jar destfile="${dist.dir}\Rectangle.jar" basedir="${build.dir}">
-	  <manifest>
-	     <attribute name="Main-Class" value="Rectangulator"/>
-	  </manifest>
-    </jar>	
+  <!-- Creates a test report xml file -->
+  <target name="test" depends="clean, mkdir, compile">
+    <junit preintsummary="yes", fork="true">
+        <classpath refid="class.path" />
+        <test name= "RectangleTest" todir="${reports.dir}" outfile="result">
+            <formatter type="xml"/>
+        </test>
+    </junit>
   </target>
   
   <!-- Defualt target to run all targets-->
-  <target name="main" depends="compile, jar">
+  <target name="main" depends="test">
     <description>Main target</description>
   </target>
  
