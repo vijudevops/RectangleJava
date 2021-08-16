@@ -24,7 +24,7 @@ pipeline {
 	stage ('Deploy'){
 	  steps{
 	    bat 'dir/a'
-		bat 'copy "dist\\Rectangle_%{env.BUILD_NUMBER}%.jar" D:\\Softwares\\AppServer\\httpd-2.4.48-o111k-x64-vc15\\Apache24\\htdocs\\ '	  
+		bat 'copy "dist\\Rectangle_%BUILD_NUMBER%.jar" D:\\Softwares\\AppServer\\httpd-2.4.48-o111k-x64-vc15\\Apache24\\htdocs\\ '	  
 	  }
 		
 	}
