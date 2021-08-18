@@ -32,7 +32,19 @@ pipeline {
 	    bat 'dir/a'
 		echo "Build Number current: $BUILD_NUMBER OR $env.BUILD_NUMBER OR ${BUILD_NUMBER}"
 		bat 'copy dist\\*.jar D:\\Softwares\\AppServer\\httpd-2.4.48-o111k-x64-vc15\\Apache24\\htdocs\\'	  
-	  }		
+	  }
+		post{
+		success {
+			emailext(
+			 subject : "${env.JOB_NAME} [${env.BUILD_NUMBER}] Deployed code to http webserver ", 
+			 body :""" <p> '${env.JOB_NAME} [${env.BUILD_NUMBER}] Deployed code to http webserver": </p>
+			 <p> Check Console output at &QUOT; <a href='${env.BUILD_URL}'> ${env.JOB_NAME} [${env.BUILD_NUMBER}] </a>&QUOT;</p>""",
+			 to : "vijay.vadagole@candelalabs.io"		 
+			 )
+		
+			}
+		
+		}
 	}
 	
 	stage('Promote develop branch to master'){
@@ -56,7 +68,7 @@ pipeline {
 	   }
 	   post{
 
-		failure {
+		success {
 			emailext(
 			 subject : "${env.JOB_NAME} [${env.BUILD_NUMBER}] Develop prompted to master ", 
 			 body :""" <p> '${env.JOB_NAME} [${env.BUILD_NUMBER}] Develop prompted to master": </p>
@@ -72,7 +84,6 @@ pipeline {
   }//end of stages section.
  
 	post {
-
 	failure {
 		emailext(
 		 subject : "${env.JOB_NAME} [${env.BUILD_NUMBER}] Failed !", 
